@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script type="text/javascript">
+			/*不是ES6的面向对象和继承*/
+//			function User(name,age){
+//				this.name=name;
+//				this.age=age;
+//			}
+//			User.prototype.showName=function(){
+//				alert(this.name)
+//			}
+//			/*继承*/
+//			function VipUser(name,age,lv){
+//				User.call(this,name,age)
+//				this.lv=lv
+//			}
+//			VipUser.prototype=new User();
+//			VipUser.prototype.constructor=VipUser;
+//			VipUser.prototype.showLv=function(){
+//				alert(this.lv)
+//			}
+//			var u2=new VipUser("bbb","123456",3);
+//			u2.showName();
+//			u2.showLv();
+		</script>
+		
+		
+		
+	</head>
+	<body>
+		
+		<!--
+			es6:ie10+;chrome;firefox;移动端;nodeJs
+			
+			
+		-->
+		
+		<script type="text/javascript">
+			class User{
+				constructor(name,age){
+					this.name=name;
+					this.age=age;
+				}				
+				showName(){
+					alert(this.name)
+				}
+				showAge(){
+					alert(this.age)
+				}			
+			}		
+			/*
+			 继承
+			 * */		
+			class VipUser extends User{
+				constructor(name,age,level){
+					super(name,age);
+					this.level=level;
+				}
+				showLv(){
+					alert(this.level)
+				}
+			}		
+			var u1=new VipUser("aaa","123456",3);
+			u1.showName();
+			u1.showAge();
+			u1.showLv();
+		</script>
+	</body>
+</html>
