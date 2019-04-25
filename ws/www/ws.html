@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="http://localhost:8080/socket.io/socket.io.js"></script>
+
+		<style>
+		
+		.mine{
+			background: green
+		}
+		</style>
+	</head>
+	<body>
+
+			<input type="text" name="username" id="user"/>
+			<input type="password" name="password" id="psd"/>
+			<input type="button" id="btn" value="注册" />
+			<input type="button" id="btn1" value="登录" />
+			<input type="text" id="textarea"/>
+			<input type="text" id="sendbtn" value="发送"/>
+			<ul id="textul" style="border:1px solid red;width:500px;height:500px"></ul>
+		<script src="https://cdn.bootcss.com/jquery/3.4.0/jquery.min.js"></script>	
+		
+		<script>
+			let sock=io.connect("ws://localhost:8080/");
+			$(function(){
+				var cur_username;
+				var ouser=$("#user");
+				var obtn=$("#btn");
+				var obtn1=$("#btn1");
+				var textarea=$("#textarea");
+				var sendbtn=$("#sendbtn");
+				var textul=$("#textul");
+				var textareaval=textarea.val()			
+
+				obtn.click(function(){
+					sock.emit("reg",$("#user").val(),$("#psd").val())
+				})
+				sock.on("reg_data",(code,data)=>{
+					console.log(data)
+				});
+
+				//登录
+				obtn1.click(function(){
+					sock.emit("login",$("#user").val(),$("#psd").val())
+				})
+				sock.on("login_data",(code,data)=>{
+					if(code==200){
+						alert(data);
+						cur_username=ouser.val()
+						console.log(cur_username)
+					}
+				})
+				//发送消息
+				sendbtn.click(()=>{
+					if(textarea.val().length!=0){
+						sock.emit("msg",textarea.val())
+					}else{
+						alert("不能为空")
+					}
+				})
+				sock.on("msg_data",(code,data)=>{
+					if(code==200){
+						alert(data)
+						let oLi=document.createElement("li");
+						oLi.className="mine";
+						oLi.innerHTML=`<h4>${cur_username}</h4><p>${textarea.val()}</p>`
+						textul.append(oLi)
+						textarea.innerHTML=""
+					}
+				})
+				sock.on("otheruserMsg",(otherusername,data)=>{					
+					let oLi=document.createElement("li");
+						oLi.innerHTML=`<h4>${otherusername}</h4><p>${data}</p>`
+						textul.append(oLi)
+				})
+
+
+
+
+			})
+		</script>
+	</body>
+</html>

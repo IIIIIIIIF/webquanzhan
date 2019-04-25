@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <input type="button" value="ajax" id="btn">
+    <script>
+            //高版本浏览器都是默认Ajax2.0   ie10一下为1.0
+
+            //2.0  的新东西为：formData,文件上传xhr.upload,cors跨域
+        window.onload=function(){
+            var btn=document.getElementById("btn")
+            btn.onclick=function(){
+                var xhr=new XMLHttpRequest();
+                xhr.open('get','localhost:8080',true);
+                xhr.send();
+                xhr.onreadystatechange=function(){
+                    if(xhr.readyState==4){
+                        alert(xhr.status)
+                    }
+                }
+            }
+           
+        }
+           
+
+
+        
+        </script>
+</body>
+</html>
